@@ -1,0 +1,23 @@
+{
+  "name": "react-native-colorize-example",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "server": "node server/index.js",
+    "debugger": "node --inspect server/index.js"
+  },
+  "dependencies": {
+    "@huangjs888/react-native-colorize": "link:../",
+    "react": "17.0.2",
+    "react-native": "0.68.2",
+    "react-native-webview": "^11.22.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.9",
+    "@babel/runtime": "^7.18.9",
+    "metro-react-native-babel-preset": "^0.71.3"
+  }
+}

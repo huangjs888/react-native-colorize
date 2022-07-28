@@ -1,0 +1,177 @@
+<!--
+ * @Author: Huangjs
+ * @Date: 2022-07-05 12:07:45
+ * @LastEditors: Huangjs
+ * @LastEditTime: 2022-07-27 16:24:57
+ * @Description: ******
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scaleable=no"
+      name="viewport" />
+  </head>
+  <body
+    style="
+      width: 100%;
+      height: 360px;
+      margin-top: 100px;
+      position: relative;
+      overflow: initial;
+    ">
+    <div
+      style="
+        position: absolute;
+        top: -100px;
+        text-align: center;
+        margin: 20px;
+        width: 100%;
+      ">
+      <label><input type="checkbox" id="checkbox" />Click me</label>
+    </div>
+    <script>
+      (function () {
+        var execute = function () {
+          var dataType = {
+            unit: 'ug/m³',
+            label: 'PM10',
+            domain: {
+              range: [0, 20, 40, 60, 80, 100],
+              color: [
+                'rgb(0,228,0)',
+                'rgb(255,255,0)',
+                'rgb(255,126,0)',
+                'rgb(255,0,0)',
+                'rgb(153,0,76)',
+                'rgb(126,0,35)',
+              ],
+              opacity: 0.8,
+            },
+          };
+          var oclock = function () {
+            var moment = new Date();
+            return (
+              moment.getTime() -
+              moment.getMinutes() * 60 * 1000 -
+              moment.getSeconds() * 1000 -
+              moment.getMilliseconds()
+            );
+          };
+          var parse = function (data) {
+            var distance = 5 * 1000;
+            var heatData = { x: [], y: [], z: [] };
+            var dlength = data.length;
+            for (var j = 0; j < dlength; j += 1) {
+              heatData.x[j] = oclock() - (dlength - j - 1) * 3600 * 1000;
+              var value = data[j];
+              var vlength = value.length;
+              for (var i = 0; i < vlength; i += 1) {
+                if (j === 0) {
+                  heatData.y[i] = i * distance;
+                }
+                if (!heatData.z[i]) {
+                  heatData.z[i] = [];
+                }
+                heatData.z[i][j] = +value[i] || 0;
+              }
+            }
+            return heatData;
+          };
+          window.colorize('init', [
+            {
+              zoom: {
+                x: {
+                  domain: 'x',
+                  translate: [-Infinity, Infinity],
+                  precision: [1000, 366 * 24 * 60 * 60 * 1000],
+                },
+                y: {
+                  domain: 'y',
+                  translate: [-5000, 35000],
+                  precision: [30, 40000],
+                },
+              },
+              scale: {
+                x: {
+                  type: 'time',
+                  label: '时间',
+                  ticks: 12,
+                  unit: '',
+                },
+                y: {
+                  type: 'linear',
+                  label: '距离',
+                  unit: 'm',
+                },
+                z: {
+                  format: (v) => v,
+                },
+              },
+            },
+          ]);
+          window.colorize('setDomain', [
+            {
+              z: [
+                dataType.domain.opacity,
+                dataType.domain.color,
+                dataType.domain.range,
+              ],
+            },
+          ]);
+          window.colorize('setLabel', [
+            {
+              z: {
+                label: dataType.label,
+                unit: dataType.unit,
+              },
+            },
+          ]);
+          window.colorize('setData', [{}, true]);
+          document.getElementById('checkbox').onchange = function (e) {
+            const checked = e.target.checked;
+            window.colorize('setData', [
+              {
+                heat: parse([
+                  [checked ? 0 : 20, 40, 60, 80],
+                  [40, checked ? 0 : 60, 80, checked ? 0 : 100],
+                  [80, 60, checked ? 0 : 40, 20],
+                  [100, checked ? 0 : 80, 60, 40],
+                  [checked ? 0 : 20, 40, 60, 80],
+                  [60, 40, checked ? 0 : 100, checked ? 0 : 80],
+                  [40, checked ? 0 : 60, 80, checked ? 0 : 100],
+                  [60, 40, checked ? 0 : 100, checked ? 0 : 80],
+                  [100, checked ? 0 : 80, 60, 40],
+                  [60, 40, checked ? 0 : 100, checked ? 0 : 80],
+                  [80, 60, checked ? 0 : 40, 20],
+                  [60, 40, checked ? 0 : 100, checked ? 0 : 80],
+                ]),
+              },
+              true,
+            ]);
+          };
+        };
+        if (document.addEventListener) {
+          document.addEventListener(
+            'DOMContentLoaded',
+            function () {
+              execute();
+            },
+            false,
+          );
+        } else if (document.attachEvent) {
+          document.attachEvent('onreadystatechange', function () {
+            if (document.readyState === 'complete') {
+              execute();
+            }
+          });
+        } else {
+          window.onload = function () {
+            execute();
+          };
+        }
+      })();
+    </script>
+  </body>
+</html>
