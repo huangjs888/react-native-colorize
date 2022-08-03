@@ -53,10 +53,9 @@
     "react-native-webview": "*"
   },
   "dependencies": {
-    "@huangjs888/d3-chart": "^2.2.0",
+    "@huangjs888/d3-chart": "^3.0.0",
     "deprecated-react-native-prop-types": "^2.3.0",
-    "prop-types": "^15.8.1",
-    "react-native-webview": "^10.10.2"
+    "prop-types": "^15.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",
@@ -77,6 +76,7 @@
     "prettier": "^2.7.1",
     "react": "^17.0.2",
     "react-native": "^0.68.2",
+    "react-native-webview": "^11.23.0",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3"

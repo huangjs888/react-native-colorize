@@ -3,7 +3,7 @@
  * @Author: Huangjs
  * @Date: 2021-03-17 16:23:00
  * @LastEditors: Huangjs
- * @LastEditTime: 2022-07-28 09:21:54
+ * @LastEditTime: 2022-08-01 16:51:15
  * @Description: ******
  */
 import { HeatMap } from '@huangjs888/d3-chart';
@@ -15,7 +15,11 @@ const sendMessage = (data) =>
 const hmId = `colorize-${Math.round(Math.random() * 100000)}`;
 
 function init(option) {
-  const { colorBar, tooptip, ...restOptions } = option || {};
+  const { padding, legend = [22, 12, 50], tooltip = true } = option || {};
+  const xAxis = (option || {}).xAxis || { type: 'linear' };
+  const { zoom: xZoom, x2, ...restXAxis } = xAxis;
+  const yAxis = (option || {}).yAxis || { type: 'linear' };
+  const { zoom: yZoom, y2, ...restYAxis } = yAxis;
   let element = document.getElementById(hmId);
   if (!element) {
     element = document.createElement('div');
@@ -27,13 +31,37 @@ function init(option) {
   }
   const hm = new HeatMap({
     container: element,
-    padding: [20, 62, 36, 62],
-    colorBar:
-      typeof colorBar === 'undefined'
-        ? { show: true, width: 22, left: 12, right: 50 }
-        : colorBar,
-    tooptip: typeof tooptip === 'undefined' ? { cross: 'xy' } : tooptip,
-    ...restOptions,
+    padding: !padding ? [24, 8, 36, 44] : padding,
+    legend: !legend
+      ? { show: false }
+      : { show: true, width: legend[0], left: legend[1], right: legend[2] },
+    tooltip: !tooltip ? false : { cross: 'xy' },
+    zoom:
+      !xZoom && !yZoom
+        ? null
+        : {
+            x: !xZoom
+              ? null
+              : {
+                  domain: xAxis.x2 ? 'x2' : 'x',
+                  translate: xZoom.translate,
+                  precision: xZoom.precision,
+                },
+            y: !yZoom
+              ? null
+              : {
+                  domain: yAxis.y2 ? 'y2' : 'y',
+                  translate: yZoom.translate,
+                  precision: yZoom.precision,
+                },
+            doubleZoom: true,
+          },
+    scale: {
+      x: x2 ? null : { ...restXAxis },
+      x2: !x2 ? null : { ...restXAxis },
+      y: y2 ? null : { ...restYAxis },
+      y2: !y2 ? null : { ...restYAxis },
+    },
   });
   hm.setEvent('zoomstart', () => sendMessage({ type: 'zoomstart' }));
   hm.setEvent('zooming', () => sendMessage({ type: 'zooming' }));
@@ -41,25 +69,28 @@ function init(option) {
   hm.setEvent('click', () => sendMessage({ type: 'click' }));
   hm.setEvent('dblclick', () => sendMessage({ type: 'dblclick' }));
   hm.setEvent('reset', () => sendMessage({ type: 'reset' }));
-  hm.setEvent('resize', () => sendMessage({ type: 'resize' }));
   return hm;
 }
 
 let chart = null;
 window.colorize = function (command, option) {
-  if (command === 'init') {
-    chart = init(...option);
-  } else if (typeof command === 'string') {
-    if (chart) {
+  try {
+    const restOptions = option || [];
+    if (command === 'init') {
+      chart = init(...restOptions);
+    } else if (chart) {
       if (chart[command]) {
-        chart[command](...option);
+        if (command === 'setData') {
+          restOptions[0] = { heat: restOptions[0] };
+        }
+        chart[command](...restOptions);
       } else {
-        sendMessage({ type: 'error', message: `no method ${command}...` });
+        sendMessage({ type: 'error', message: `no method ${command} ...` });
       }
     } else {
-      sendMessage({ type: 'error', message: 'uninitialized...' });
+      sendMessage({ type: 'error', message: '"init" method not executed ...' });
     }
-  } else {
-    sendMessage({ type: 'error', message: 'pass the correct command...' });
+  } catch (e) {
+    sendMessage({ type: 'error', message: e.message });
   }
 };

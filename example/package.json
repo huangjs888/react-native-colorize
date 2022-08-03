@@ -13,7 +13,7 @@
     "@huangjs888/react-native-colorize": "link:../",
     "react": "17.0.2",
     "react-native": "0.68.2",
-    "react-native-webview": "^11.22.7"
+    "react-native-webview": "^11.23.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",

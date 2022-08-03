@@ -3,11 +3,11 @@
  * @Author: Huangjs
  * @Date: 2022-06-01 12:40:31
  * @LastEditors: Huangjs
- * @LastEditTime: 2022-07-28 13:50:16
+ * @LastEditTime: 2022-08-01 16:23:32
  * @Description: ******
  */
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Colorize from '@huangjs888/react-native-colorize';
 import pm10 from '../../server/data/pm10.json';
@@ -51,40 +51,12 @@ const dataTypeSet = [
     },
   },
 ];
-
-const initCfg = {
-  zoom: {
-    x: {
-      domain: 'x',
-      translate: [-Infinity, Infinity],
-      precision: [1000, 366 * 24 * 60 * 60 * 1000],
-    },
-    y: {
-      domain: 'y',
-      translate: [-5000, 35000],
-      precision: [30, 40000],
-    },
-  },
-  scale: {
-    x: {
-      type: 'time',
-      label: '时间',
-      unit: '',
-    },
-    y: {
-      type: 'linear',
-      label: '距离',
-      unit: 'm',
-    },
-  },
-};
-
-var parse = function (list, dataType) {
+var parse = function (list, dataType, type) {
   var heatData = { x: [], y: [], z: [] };
   if (list) {
     var dlength = list.length;
     for (var j = 0; j < dlength; j += 1) {
-      heatData.x[j] = +list[j].dataTime;
+      heatData.x[j] = +list[j].dataTime + (+type === 2 ? 0 : 12 * 3600 * 1000);
       var value = list[j][dataType];
       if (!value || !value.length) {
         if (!heatData.x.invalid) {
@@ -109,62 +81,134 @@ var parse = function (list, dataType) {
 };
 
 export default () => {
-  const [data, setData] = useState(null);
-  const [domain, setDomain] = useState(null);
-  const [label, setLabel] = useState(null);
-  useEffect(() => {
-    const source = parse(pm10.data.list, dataTypeSet[0].key);
-    setLabel({
-      z: {
-        label: dataTypeSet[0].label,
-        unit: dataTypeSet[0].unit,
-      },
-    });
-    setDomain({
-      x: [source.x[0], source.x[source.x.length - 1]],
-      y: [source.y[0], source.y[source.y.length - 1]],
-      z: [
-        dataTypeSet[0].domain.opacity,
-        dataTypeSet[0].domain.color,
-        dataTypeSet[0].domain.range,
-      ],
-    });
-    setData(source);
-    setTimeout(() => {
-      setDomain({
+  const colorizeRef = useRef(null);
+  const colorizeRef2 = useRef(null);
+  const handleOnInit = useCallback(() => {
+    if (colorizeRef.current) {
+      colorizeRef.current.on('click', (data) => {
+        console.log('click1', data);
+      });
+      const source = parse(pm10.data.list, dataTypeSet[0].key);
+      colorizeRef.current.init({
+        tooltip: true,
+        legend: [16, 0, 32],
+        padding: [20, 10, 20, 28],
+        xAxis: {
+          type: 'time',
+          showRange: false,
+        },
+        yAxis: {
+          type: 'linear',
+          showRange: false,
+        },
+      });
+      colorizeRef.current.label({
+        x: {
+          label: '时间',
+          unit: '',
+        },
+        y: {
+          label: '距离',
+          unit: 'm',
+        },
+        z: {
+          label: dataTypeSet[0].label,
+          unit: dataTypeSet[0].unit,
+        },
+      });
+      colorizeRef.current.domain({
+        x: [source.x[0], source.x[source.x.length - 1]],
+        y: [source.y[0], source.y[source.y.length - 1]],
+        z: [
+          dataTypeSet[0].domain.opacity,
+          dataTypeSet[0].domain.color,
+          dataTypeSet[0].domain.range,
+        ],
+      });
+      colorizeRef.current.data(source);
+      colorizeRef.current.render();
+      colorizeRef.current.on('click', (data) => {
+        console.log('click2', data);
+      });
+      console.log('onLoaded');
+    }
+    console.log('onLoad');
+  }, []);
+  const handleOnInit2 = useCallback(() => {
+    if (colorizeRef2.current) {
+      colorizeRef2.current.on('zoomend', (data) => {
+        console.log('zoomend1', data);
+      });
+      const source = parse(pm10.data.list, dataTypeSet[0].key, 2);
+      colorizeRef2.current.init({
+        tooltip: true,
+        legend: [16, 0, 32],
+        padding: [24, 8, 36, 44],
+        xAxis: {
+          type: 'time',
+          zoom: {
+            // 不能使用Infinity,否则无法拖动
+            translate: [0, new Date().getTime() + Number.MAX_SAFE_INTEGER],
+            precision: [1000, 366 * 24 * 60 * 60 * 1000],
+          },
+        },
+        yAxis: {
+          type: 'linear',
+          zoom: { translate: [-5000, 35000], precision: [30, 40000] },
+        },
+      });
+      colorizeRef2.current.label({
+        x: {
+          label: '时间',
+          unit: '',
+        },
+        y: {
+          label: '距离',
+          unit: 'm',
+        },
+        z: {
+          label: dataTypeSet[2].label,
+          unit: dataTypeSet[2].unit,
+        },
+      });
+      colorizeRef2.current.domain({
+        x: [source.x[0], source.x[source.x.length - 1]],
+        y: [source.y[0], source.y[source.y.length - 1]],
         z: [
           dataTypeSet[2].domain.opacity,
           dataTypeSet[2].domain.color,
           dataTypeSet[2].domain.range,
         ],
       });
-      setLabel({
-        z: {
-          label: dataTypeSet[2].label,
-          unit: dataTypeSet[2].unit,
-        },
+      colorizeRef2.current.data(source);
+      colorizeRef2.current.render();
+      colorizeRef2.current.on('click', (data) => {
+        console.log('zoomend2', data);
       });
-    }, 3000);
+      console.log('onLoaded2');
+    }
+    console.log('onLoad2');
+  }, []);
+  const handleOnError = useCallback((e) => {
+    console.log(e.message);
   }, []);
   return (
     <View style={styles.view}>
       <Colorize
-        style={styles.view}
-        height={320}
-        domain={domain}
-        label={label}
-        dataSource={data}
-        onInited={() => {
-          console.log('onInited');
-        }}
-        onError={(e) => {
-          console.log(e.message);
-        }}
-        initCfg={initCfg}
+        ref={colorizeRef}
+        height={200}
+        onInit={handleOnInit}
+        onError={handleOnError}
+      />
+      <Colorize
+        ref={colorizeRef2}
+        height={200}
+        onInit={handleOnInit2}
+        onError={handleOnError}
       />
     </View>
   );
 };
 const styles = StyleSheet.create({
-  view: { flex: 1, width: '100%', height: '80%' },
+  view: { flex: 1, paddingTop: 16, paddingBottom: 16 },
 });
