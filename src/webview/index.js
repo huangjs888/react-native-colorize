@@ -3,7 +3,7 @@
  * @Author: Huangjs
  * @Date: 2021-03-17 16:23:00
  * @LastEditors: Huangjs
- * @LastEditTime: 2022-08-01 16:51:15
+ * @LastEditTime: 2022-08-08 17:02:53
  * @Description: ******
  */
 import { HeatMap } from '@huangjs888/d3-chart';
@@ -66,7 +66,13 @@ function init(option) {
   hm.setEvent('zoomstart', () => sendMessage({ type: 'zoomstart' }));
   hm.setEvent('zooming', () => sendMessage({ type: 'zooming' }));
   hm.setEvent('zoomend', () => sendMessage({ type: 'zoomend' }));
-  hm.setEvent('click', () => sendMessage({ type: 'click' }));
+  hm.setEvent('click', ({ sourceEvent }) =>
+    sendMessage({
+      type: 'click',
+      x: sourceEvent.clientX,
+      y: sourceEvent.clientY,
+    }),
+  );
   hm.setEvent('dblclick', () => sendMessage({ type: 'dblclick' }));
   hm.setEvent('reset', () => sendMessage({ type: 'reset' }));
   return hm;
@@ -85,10 +91,10 @@ window.colorize = function (command, option) {
         }
         chart[command](...restOptions);
       } else {
-        sendMessage({ type: 'error', message: `no method ${command} ...` });
+        sendMessage({ type: 'error', message: `no method ${command}...` });
       }
     } else {
-      sendMessage({ type: 'error', message: '"init" method not executed ...' });
+      sendMessage({ type: 'error', message: '"init" method not executed...' });
     }
   } catch (e) {
     sendMessage({ type: 'error', message: e.message });

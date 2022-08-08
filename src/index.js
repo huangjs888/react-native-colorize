@@ -3,7 +3,7 @@
  * @Author: Huangjs
  * @Date: 2022-05-19 16:27:41
  * @LastEditors: Huangjs
- * @LastEditTime: 2022-08-01 16:12:06
+ * @LastEditTime: 2022-08-08 16:59:39
  * @Description: ******
  */
 
@@ -70,7 +70,7 @@ const Colorize = forwardRef((props, ref) => {
   const eventRef = useRef({});
   const { style, width, height, onError, onInit } = props;
   const handleOnError = useCallback(
-    () => onError(new Error('webview load error')),
+    () => onError(new Error('WebView load error...')),
     [onError],
   );
   const handleOnLoad = useCallback(() => onInit(), [onInit]);
@@ -100,7 +100,7 @@ const Colorize = forwardRef((props, ref) => {
             {
               type: 'error',
               message:
-                'window.colorize method not created, you can initialize in onLoad ...',
+                'window.colorize method not created, you can initialize in onLoad...',
             },
           )}\`);}else{window.colorize('${command}',${JSON.stringify(
             option,

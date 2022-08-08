@@ -5,9 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
-    "server": "node server/index.js",
-    "debugger": "node --inspect server/index.js"
+    "start": "react-native start"
   },
   "dependencies": {
     "@huangjs888/react-native-colorize": "link:../",

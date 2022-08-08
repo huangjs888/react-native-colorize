@@ -3,14 +3,15 @@
  * @Author: Huangjs
  * @Date: 2022-06-01 12:40:31
  * @LastEditors: Huangjs
- * @LastEditTime: 2022-08-01 16:23:32
+ * @LastEditTime: 2022-08-08 16:45:17
  * @Description: ******
  */
 
 import React, { useRef, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
+import WebView from 'react-native-webview';
 import Colorize from '@huangjs888/react-native-colorize';
-import pm10 from '../../server/data/pm10.json';
+import pm10 from '../data/pm10.json';
 
 const dataTypeSet = [
   {
@@ -206,6 +207,7 @@ export default () => {
         onInit={handleOnInit2}
         onError={handleOnError}
       />
+      <WebView source={{ uri: 'http://www.baidu.com' }} />
     </View>
   );
 };
