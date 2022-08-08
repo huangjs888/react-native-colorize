@@ -1,7 +1,7 @@
 {
   "name": "@huangjs888/react-native-colorize",
   "title": "React Native Colorize",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Draw pseudo-color use webview",
   "main": "src/index",
   "source": "src/index",
