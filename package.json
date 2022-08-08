@@ -55,7 +55,7 @@
     "@huangjs888/d3-chart": "^3.0.0",
     "deprecated-react-native-prop-types": "^2.3.0",
     "prop-types": "^15.8.1",
-    "react-native-webview": "^11.23.0"
+    "react-native-webview": "^10.10.2"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",
