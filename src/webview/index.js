@@ -3,7 +3,7 @@
  * @Author: Huangjs
  * @Date: 2021-03-17 16:23:00
  * @LastEditors: Huangjs
- * @LastEditTime: 2022-08-08 17:02:53
+ * @LastEditTime: 2022-08-15 13:57:10
  * @Description: ******
  */
 import { HeatMap } from '@huangjs888/d3-chart';
@@ -83,6 +83,9 @@ window.colorize = function (command, option) {
   try {
     const restOptions = option || [];
     if (command === 'init') {
+      if (chart) {
+        chart.destroy();
+      }
       chart = init(...restOptions);
     } else if (chart) {
       if (chart[command]) {
