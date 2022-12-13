@@ -9,13 +9,13 @@
   },
   "dependencies": {
     "@huangjs888/react-native-colorize": "link:../",
-    "react": "17.0.2",
-    "react-native": "0.68.2",
-    "react-native-webview": "^11.23.0"
+    "react": "18.1.0",
+    "react-native": "0.70.6",
+    "react-native-webview": "^11.26.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",
     "@babel/runtime": "^7.18.9",
-    "metro-react-native-babel-preset": "^0.71.3"
+    "metro-react-native-babel-preset": "^0.72.3"
   }
 }

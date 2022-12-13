@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.example.colorize",
+    package = "com.examplecolorize",
 )
 
 android_resource(
     name = "res",
-    package = "com.example.colorize",
+    package = "com.examplecolorize",
     res = "src/main/res",
 )
 
