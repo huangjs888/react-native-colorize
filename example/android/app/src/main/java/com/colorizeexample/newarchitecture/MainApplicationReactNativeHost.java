@@ -1,4 +1,4 @@
-package com.examplecolorize.newarchitecture;
+package com.colorizeexample.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.examplecolorize.BuildConfig;
-import com.examplecolorize.newarchitecture.components.MainComponentsRegistry;
-import com.examplecolorize.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.colorizeexample.BuildConfig;
+import com.colorizeexample.newarchitecture.components.MainComponentsRegistry;
+import com.colorizeexample.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -3,7 +3,7 @@
  * @Author: Huangjs
  * @Date: 2021-03-17 16:23:00
  * @LastEditors: Huangjs
- * @LastEditTime: 2022-08-15 13:57:10
+ * @LastEditTime: 2022-12-15 10:06:35
  * @Description: ******
  */
 import { HeatMap } from '@huangjs888/d3-chart';
@@ -12,7 +12,9 @@ import './index.less';
 const sendMessage = (data) =>
   (window.ReactNativeWebView || window).postMessage(JSON.stringify(data));
 
-const hmId = `colorize-${Math.round(Math.random() * 100000)}`;
+const hmId = `colorize-${
+  new Date().getTime() + Math.round(Math.random() * 100000)
+}`;
 
 function init(option) {
   const { padding, legend = [22, 12, 50], tooltip = true } = option || {};
@@ -94,10 +96,13 @@ window.colorize = function (command, option) {
         }
         chart[command](...restOptions);
       } else {
-        sendMessage({ type: 'error', message: `no method ${command}...` });
+        sendMessage({ type: 'error', message: `No method ${command}...` });
       }
     } else {
-      sendMessage({ type: 'error', message: '"init" method not executed...' });
+      sendMessage({
+        type: 'error',
+        message: 'This "init" method not executed...',
+      });
     }
   } catch (e) {
     sendMessage({ type: 'error', message: e.message });

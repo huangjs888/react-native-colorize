@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "ExampleColorize.app"
-               BlueprintName = "ExampleColorize"
-               ReferencedContainer = "container:ExampleColorize.xcodeproj">
+               BuildableName = "ColorizeExample.app"
+               BlueprintName = "ColorizeExample"
+               ReferencedContainer = "container:ColorizeExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ExampleColorizeTests.xctest"
-               BlueprintName = "ExampleColorizeTests"
-               ReferencedContainer = "container:ExampleColorize.xcodeproj">
+               BuildableName = "ColorizeExampleTests.xctest"
+               BlueprintName = "ColorizeExampleTests"
+               ReferencedContainer = "container:ColorizeExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ExampleColorize.app"
-            BlueprintName = "ExampleColorize"
-            ReferencedContainer = "container:ExampleColorize.xcodeproj">
+            BuildableName = "ColorizeExample.app"
+            BlueprintName = "ColorizeExample"
+            ReferencedContainer = "container:ColorizeExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ExampleColorize.app"
-            BlueprintName = "ExampleColorize"
-            ReferencedContainer = "container:ExampleColorize.xcodeproj">
+            BuildableName = "ColorizeExample.app"
+            BlueprintName = "ColorizeExample"
+            ReferencedContainer = "container:ColorizeExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

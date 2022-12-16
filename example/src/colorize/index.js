@@ -3,12 +3,12 @@
  * @Author: Huangjs
  * @Date: 2022-06-01 12:40:31
  * @LastEditors: Huangjs
- * @LastEditTime: 2022-08-08 16:45:17
+ * @LastEditTime: 2022-12-16 15:59:14
  * @Description: ******
  */
 
 import React, { useRef, useCallback } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import WebView from 'react-native-webview';
 import Colorize from '@huangjs888/react-native-colorize';
 import pm10 from '../data/pm10.json';
@@ -207,10 +207,17 @@ export default () => {
         onInit={handleOnInit2}
         onError={handleOnError}
       />
+      <Text style={[styles.text]}>Hello你好</Text>
       <WebView source={{ uri: 'http://www.baidu.com' }} />
     </View>
   );
 };
 const styles = StyleSheet.create({
   view: { flex: 1, paddingTop: 16, paddingBottom: 16 },
+  text: {
+    fontSize: 24,
+    color: 'red',
+    opacity: 0.25,
+    margin: 16,
+  },
 });

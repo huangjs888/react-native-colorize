@@ -1,9 +1,8 @@
-/* eslint-disable no-sequences */
 /*
  * @Author: Huangjs
  * @Date: 2022-07-18 15:47:39
  * @LastEditors: Huangjs
- * @LastEditTime: 2022-07-22 13:55:15
+ * @LastEditTime: 2022-12-16 10:34:33
  * @Description: ******
  */
 const parse5 = require('parse5');
@@ -115,16 +114,14 @@ HtmlInlineAssetsJsonPlugin.prototype.apply = function (compiler) {
       })
     : (compiler.hooks
         ? compiler.hooks.emit.tapAsync.bind(compiler.hooks.emit, PLUGIN_NAME)
-        : compiler.plugin.bind(compiler, 'emit'))(
-        (compilation, callback) => (
-          processAssets(
-            compilation,
-            getAssets(compilation).map(({ name }) => name),
-            options,
-          ),
-          callback()
-        ),
-      );
+        : compiler.plugin.bind(compiler, 'emit'))((compilation, callback) => {
+        processAssets(
+          compilation,
+          getAssets(compilation).map(({ name }) => name),
+          options,
+        );
+        callback();
+      });
 };
 
 module.exports = HtmlInlineAssetsJsonPlugin;
